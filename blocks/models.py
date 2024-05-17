@@ -9,8 +9,18 @@ class Material(models.Model):
 class Schema(models.Model):
     name = models.CharField(max_length=50)
 
+GRADES = (
+    ('s+', 'S+'),
+    ('s', 'S'),
+    ('a+', 'A+'),
+    ('a', 'A'),
+    ('b+', 'B+'),
+    ('b', 'B'),
+    ('l', 'L'),
+)
+
 class Quality(models.Model):
-    grade = models.CharField(max_length=50)
+    grade = models.CharField(max_length=2, choices=GRADES)
 
 class Block(models.Model):
     city = models.ForeignKey("City", on_delete=models.CASCADE)
