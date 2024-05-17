@@ -19,8 +19,15 @@ GRADES = (
     ('l', 'L'),
 )
 
+class QualityManager(models.Manager):
+    def create_quality(self, grade):
+        quality = self.create(grade=grade)
+        return quality
+
 class Quality(models.Model):
     grade = models.CharField(max_length=2, choices=GRADES)
+    
+    objects = QualityManager()
 
 class Block(models.Model):
     city = models.ForeignKey("City", on_delete=models.CASCADE)

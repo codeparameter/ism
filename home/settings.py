@@ -34,6 +34,10 @@ ALLOWED_HOSTS = env('ALLOWED_HOSTS').split('-')
 
 # Application definition
 
+DEV_APPS = [
+    'django_seed',
+] if DEBUG else []
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -41,9 +45,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
     # django_rest
 
+
+    # DEV APPS
+
+    *DEV_APPS,
+
     # my apps
+
     'blocks',
 ]
 
