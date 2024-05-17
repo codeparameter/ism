@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     # django_rest
 
     # my apps
+    'blocks',
 ]
 
 MIDDLEWARE = [
