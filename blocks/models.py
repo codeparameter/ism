@@ -20,4 +20,4 @@ class Block(models.Model):
     length = models.IntegerField()
     height = models.IntegerField()
     width = models.IntegerField()
-    available = models.BooleanField()
+    available = models.BooleanField(default=True)
