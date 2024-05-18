@@ -35,8 +35,11 @@ class BlockSerializer(serializers.ModelSerializer):
         model = Block
         fields = (
             'city',
+            'city_name',
             'material',
+            'material_name',
             'schema',
+            'schema_name',
             'quality',
             'length',
             'height',

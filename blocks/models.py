@@ -30,11 +30,27 @@ class Quality(models.Model):
     # objects = QualityManager()
 
 class Block(models.Model):
-    city = models.ForeignKey("City", on_delete=models.CASCADE)
-    material = models.ForeignKey("Material", on_delete=models.CASCADE)
-    schema = models.ForeignKey("Schema", on_delete=models.CASCADE)
-    quality = models.ForeignKey("Quality", on_delete=models.CASCADE)
+    city = models.ForeignKey(City, on_delete=models.CASCADE)
+    material = models.ForeignKey(Material, on_delete=models.CASCADE)
+    schema = models.ForeignKey(Schema, on_delete=models.CASCADE)
+    quality = models.ForeignKey(Quality, on_delete=models.CASCADE)
     length = models.IntegerField()
     height = models.IntegerField()
     width = models.IntegerField()
     available = models.BooleanField(default=True)
+
+    @property
+    def city_name(self):
+        return self.city.name
+
+    @property
+    def material_name(self):
+        return self.material.name
+
+    @property
+    def schema_name(self):
+        return self.schema.name
+
+    @property
+    def Quality_name(self):
+        return self.quality.grade
