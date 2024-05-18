@@ -7,7 +7,8 @@ from blocks.models import Quality, GRADES
 def set_quality_grades(apps, schema_editor):
     # Quality = apps.get_model("apps", "Quality")
     for grade in GRADES:
-        instance = Quality.objects.create(grade=grade[0])
+        # instance = Quality.objects.create(grade=grade[0])
+        Quality.objects.create(grade=grade[0])
 
 
 class Migration(migrations.Migration):
