@@ -48,6 +48,7 @@ INSTALLED_APPS = [
 
     # django_rest
 
+    'rest_framework',
 
     # DEV APPS
 
