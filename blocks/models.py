@@ -37,7 +37,7 @@ class Block(models.Model):
     length = models.IntegerField()
     height = models.IntegerField()
     width = models.IntegerField()
-    available = models.BooleanField(default=True)
+    not_available = models.BooleanField(db_default=False)
 
     @property
     def city_name(self):
@@ -52,5 +52,5 @@ class Block(models.Model):
         return self.schema.name
 
     @property
-    def Quality_name(self):
+    def quality_name(self):
         return self.quality.grade
