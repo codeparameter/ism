@@ -1,4 +1,6 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
+from datetime import datetime
 
 class City(models.Model):
     name = models.CharField(max_length=50)
@@ -37,7 +39,8 @@ class Block(models.Model):
     length = models.IntegerField()
     height = models.IntegerField()
     width = models.IntegerField()
-    not_available = models.BooleanField(db_default=False)
+    not_available = models.BooleanField(default=False, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True, blank=True)
 
     @property
     def city_name(self):
@@ -54,3 +57,21 @@ class Block(models.Model):
     @property
     def quality_name(self):
         return self.quality.grade
+
+
+def blockPicPath(instance, filename):
+    return f'img/blocks/{str(datetime.now())}{filename}'
+
+
+class BlockPic(models.Model):
+    block = models.ForeignKey(Block, on_delete=models.CASCADE)
+    pic = models.ImageField(
+        _('Image'), 
+        upload_to=blockPicPath,
+        default='no-pic.png',
+        blank=True,
+        )
+
+class BlockVid(models.Model):
+    block = models.ForeignKey(City, on_delete=models.CASCADE)
+

@@ -8,10 +8,12 @@ django = "*"
 python-dotenv = "*"
 djangorestframework = "*"
 django-cors-headers = "*"
+pillow = "*"
 
 [dev-packages]
 django-seed = "*"
 psycopg2-binary = "*"
+autopep8 = "*"
 
 [requires]
 python_version = "3.12"

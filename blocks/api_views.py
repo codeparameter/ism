@@ -70,3 +70,23 @@ class BlockUpdateAPIView(generics.UpdateAPIView):
 class BlockDestroyAPIView(generics.DestroyAPIView):
     queryset = Block.objects.all()
     serializer_class = BlockSerializer
+
+
+class BlockPicListCreateAPIView(generics.ListCreateAPIView):
+    queryset = BlockPic.objects.all()
+    serializer_class = BlockPicSerializer
+
+
+class BlockPicDetailAPIView(generics.RetrieveAPIView):
+    queryset = BlockPic.objects.all()
+    serializer_class = BlockPicSerializer
+
+
+class BlockPicUpdateAPIView(generics.UpdateAPIView):
+    queryset = BlockPic.objects.all()
+    serializer_class = BlockPicSerializer
+
+
+class BlockPicDestroyAPIView(generics.DestroyAPIView):
+    queryset = BlockPic.objects.all()
+    serializer_class = BlockPicSerializer

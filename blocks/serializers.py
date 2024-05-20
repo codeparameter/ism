@@ -51,4 +51,13 @@ class BlockSerializer(serializers.ModelSerializer):
             'height',
             'width',
             'not_available',
+            'created_at',
+        )
+
+class BlockPicSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BlockPic
+        fields = (
+            'block',
+            'pic',
         )
