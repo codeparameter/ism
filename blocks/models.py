@@ -72,6 +72,11 @@ class BlockPic(models.Model):
         blank=True,
         )
 
+
+def blockVidPath(instance, filename):
+    return f'vid/blocks/{str(datetime.now())}{filename}'
+
 class BlockVid(models.Model):
-    block = models.ForeignKey(City, on_delete=models.CASCADE)
+    block = models.ForeignKey(Block, on_delete=models.CASCADE)
+    vid = models.FileField(upload_to=blockVidPath)
 

@@ -58,6 +58,16 @@ class BlockPicSerializer(serializers.ModelSerializer):
     class Meta:
         model = BlockPic
         fields = (
+            'id',
             'block',
             'pic',
+        )
+
+class BlockVidSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BlockVid
+        fields = (
+            'id',
+            'block',
+            'vid',
         )
