@@ -1,6 +1,6 @@
 # ISM.WebSite.Whitepaper
 
-This project is for a website which is all aboute stone.
+This project is a website which is all aboute stone.
 Therefore it handles CRUD operations through the authorized requests on some sort of data which are related to stones.
 
 ## Table.of.Contents
