@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from datetime import datetime
+from home.settings import NO_PIC
 
 class City(models.Model):
     name = models.CharField(max_length=50)
@@ -60,7 +61,7 @@ class Block(models.Model):
 
 
 def blockPicPath(instance, filename):
-    return f'img/blocks/{str(datetime.now())}{filename}'
+    return f'{BlockPic.media_path()}{str(datetime.now())}{filename}'
 
 
 class BlockPic(models.Model):
@@ -68,15 +69,23 @@ class BlockPic(models.Model):
     pic = models.ImageField(
         _('Image'), 
         upload_to=blockPicPath,
-        default='no-pic.png',
+        default=NO_PIC,
         blank=True,
         )
 
+    @staticmethod
+    def media_path():
+        return 'img/blocks/'
+
 
 def blockVidPath(instance, filename):
-    return f'vid/blocks/{str(datetime.now())}{filename}'
+    return f'{BlockVid.media_path()}{str(datetime.now())}{filename}'
 
 class BlockVid(models.Model):
     block = models.ForeignKey(Block, on_delete=models.CASCADE)
     vid = models.FileField(upload_to=blockVidPath)
+
+    @staticmethod
+    def media_path():
+        return 'vid/blocks/'
 

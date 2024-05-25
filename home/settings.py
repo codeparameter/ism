@@ -154,6 +154,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
+NO_PIC = 'no-pic.png'
 
 def delete_media(media_path):
-    os.remove(MEDIA_ROOT / media_path)
+    if media_path != NO_PIC:
+        os.remove(MEDIA_ROOT / media_path)
