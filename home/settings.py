@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     # django_rest
 
     'rest_framework',
+    'rest_framework.authtoken',
 
     # DEV APPS
 
