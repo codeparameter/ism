@@ -1,4 +1,5 @@
 from rest_framework import serializers
+from rest_framework.reverse import reverse
 
 from .models import *
 
@@ -35,6 +36,7 @@ class QualitySerializer(serializers.ModelSerializer):
         )
 
 class BlockSerializer(serializers.ModelSerializer):
+    url = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Block
         fields = (
@@ -52,7 +54,16 @@ class BlockSerializer(serializers.ModelSerializer):
             'width',
             'not_available',
             'created_at',
+            'url',
         )
+
+    
+    def get_url(self, obj):
+        request = self.context.get('request') # self.request
+        if request is None:
+            return None
+        return reverse('blocks-detail', kwargs={"pk": obj.pk}, request=request)
+        # blocks-detail is a name created by router from the basename
 
 class BlockPicSerializer(serializers.ModelSerializer):
     class Meta:
