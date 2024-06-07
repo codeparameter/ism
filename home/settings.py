@@ -32,6 +32,7 @@ DEBUG = env('DEBUG') == 'True'
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(',')
 CORS_ALLOWED_ORIGINS = env('CORS_ALLOWED_ORIGINS').split(',')
+CORS_ORIGIN_ALLOW_ALL = True
 
 if not DEBUG:
     SESSION_COOKIE_SECURE = True
@@ -80,7 +81,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     # others
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'home.urls'
@@ -161,9 +161,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
-    # 'DEFAULT_PARSER_CLASSES': [
-    #     'rest_framework.parsers.JSONParser',
-    # ],
+    'DEFAULT_PARSER_CLASSES': [
+        'rest_framework.parsers.JSONParser',
+    ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication', 
         'rest_framework.authentication.TokenAuthentication',
