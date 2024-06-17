@@ -32,7 +32,6 @@ DEBUG = env('DEBUG') == 'True'
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS').split(',')
 CORS_ALLOWED_ORIGINS = env('CORS_ALLOWED_ORIGINS').split(',')
-CORS_ORIGIN_ALLOW_ALL = True
 
 if not DEBUG:
     SESSION_COOKIE_SECURE = True
