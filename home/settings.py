@@ -178,6 +178,12 @@ MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 NO_PIC = 'no-pic.png'
 
+def no_pic_url(request):
+    return f'{request.get_host()}{MEDIA_URL}{NO_PIC}'
+
+def media_url(request, media_path):
+    return f'{request.get_host()}{MEDIA_URL}{media_path}'
+
 def delete_media(media_path):
     if media_path != NO_PIC:
         os.remove(MEDIA_ROOT / media_path)
