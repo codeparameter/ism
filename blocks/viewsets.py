@@ -1,9 +1,7 @@
-import json
-
 from rest_framework import mixins, viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from files.models import Pic, Vid
+from files.viewsets import add_pics_to_model_record
 from .serializers import *
 
 
@@ -13,26 +11,7 @@ class BlockViewSet(viewsets.ModelViewSet):
 
     @action(detail=True, methods=['post'])
     def add_pics(self, request, pk=None):
-        block = self.get_object()
-
-        pic_ids = request.data.get('pic_ids')
-
-        if not pic_ids:
-            return Response({'error': 'Bad request'}, status=status.HTTP_400_BAD_REQUEST)
-
-        pic_ids = json.loads(pic_ids)
-        
-        for pic_id in pic_ids:
-            pic = Pic.objects.get(id=pic_id)
-            if not pic:
-                return Response({'error': 'Bad request'}, status=status.HTTP_400_BAD_REQUEST)
-            block.pics.append({'id': pic_id, 'url': f'{pic.pic}'})
-            pic.dependencies.append({'model': 'Block', 'id': block.id})
-            pic.save()
-
-        block.save()
-
-        return Response({'success': 'Update successful', 'data': block.pics}, status=status.HTTP_200_OK)
+        return add_pics_to_model_record(request, self.get_object())
 
 
 class CityViewSet(viewsets.ModelViewSet):

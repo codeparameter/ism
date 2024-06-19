@@ -39,7 +39,8 @@ class QualitySerializer(serializers.ModelSerializer):
 
 class BlockSerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField(read_only=True)
-    # main_pic = serializers.SerializerMethodField(read_only=True)
+    pics = serializers.SerializerMethodField(read_only=True)
+    vids = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Block
         fields = (
@@ -70,10 +71,11 @@ class BlockSerializer(serializers.ModelSerializer):
         return reverse('blocks-detail', kwargs={"pk": obj.pk}, request=request)
         # blocks-detail is a name created by router from the basename
     
-    # def get_main_pic(self, obj):
-    #     request = self.context.get('request') # self.request
-    #     default_pic = BlockPic.objects.filter(block__pk=obj.pk).order_by('-default', 'priority', '-pk').first()
-    #     print(f'{BlockPic.objects.filter(block__pk=obj.pk).order_by('-default', 'priority', '-pk').all()}')
-    #     return media_url(request, default_pic.pic) if \
-    #             default_pic else \
-    #             null
+    def get_pics(self, obj):
+        request = self.context.get('request') # self.request
+        return [{**pic, 'url': media_url(request, pic['url'])} for pic in obj.pics]
+            
+    
+    def get_vids(self, obj):
+        request = self.context.get('request') # self.request
+        return [{**vid, 'url': media_url(request, vid['url'])} for vid in obj.vids]
