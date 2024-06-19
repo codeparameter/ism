@@ -39,8 +39,6 @@ class QualitySerializer(serializers.ModelSerializer):
 
 class BlockSerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField(read_only=True)
-    pics = serializers.SerializerMethodField(read_only=True)
-    vids = serializers.SerializerMethodField(read_only=True)
     # main_pic = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Block
@@ -71,12 +69,6 @@ class BlockSerializer(serializers.ModelSerializer):
             return None
         return reverse('blocks-detail', kwargs={"pk": obj.pk}, request=request)
         # blocks-detail is a name created by router from the basename
-    
-    def get_pics(self, obj):
-        return obj.pics
-    
-    def get_vids(self, obj):
-        return obj.vids
     
     # def get_main_pic(self, obj):
     #     request = self.context.get('request') # self.request
