@@ -1,7 +1,5 @@
 from django.db import models
-from django.utils.translation import gettext_lazy as _
 from datetime import datetime
-from home.settings import NO_PIC
 
 class City(models.Model):
     name = models.CharField(max_length=50)
@@ -33,6 +31,8 @@ class Quality(models.Model):
     # objects = QualityManager()
 
 class Block(models.Model):
+    pics = models.JSONField(default=list, blank=True)
+    vids = models.JSONField(default=list, blank=True)
     city = models.ForeignKey(City, on_delete=models.CASCADE)
     material = models.ForeignKey(Material, on_delete=models.CASCADE)
     schema = models.ForeignKey(Schema, on_delete=models.CASCADE)
@@ -58,34 +58,4 @@ class Block(models.Model):
     @property
     def quality_name(self):
         return self.quality.grade
-
-
-def blockPicPath(instance, filename):
-    return f'{BlockPic.media_path()}{str(datetime.now())}{filename}'
-
-
-class BlockPic(models.Model):
-    block = models.ForeignKey(Block, on_delete=models.CASCADE)
-    pic = models.ImageField(
-        _('Image'), 
-        upload_to=blockPicPath,
-        default=NO_PIC,
-        blank=True,
-        )
-
-    @staticmethod
-    def media_path():
-        return 'img/blocks/'
-
-
-def blockVidPath(instance, filename):
-    return f'{BlockVid.media_path()}{str(datetime.now())}{filename}'
-
-class BlockVid(models.Model):
-    block = models.ForeignKey(Block, on_delete=models.CASCADE)
-    vid = models.FileField(upload_to=blockVidPath)
-
-    @staticmethod
-    def media_path():
-        return 'vid/blocks/'
 

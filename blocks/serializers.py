@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from rest_framework.reverse import reverse
 
+from home.settings import media_url
+
 from .models import *
 
 class CitySerializer(serializers.ModelSerializer):
@@ -37,6 +39,9 @@ class QualitySerializer(serializers.ModelSerializer):
 
 class BlockSerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField(read_only=True)
+    pics = serializers.SerializerMethodField(read_only=True)
+    vids = serializers.SerializerMethodField(read_only=True)
+    # main_pic = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Block
         fields = (
@@ -53,10 +58,12 @@ class BlockSerializer(serializers.ModelSerializer):
             'height',
             'width',
             'not_available',
-            'created_at',
             'url',
+            'pics',
+            'vids',
+            # 'main_pic',
+            'created_at',
         )
-
     
     def get_url(self, obj):
         request = self.context.get('request') # self.request
@@ -64,21 +71,17 @@ class BlockSerializer(serializers.ModelSerializer):
             return None
         return reverse('blocks-detail', kwargs={"pk": obj.pk}, request=request)
         # blocks-detail is a name created by router from the basename
-
-class BlockPicSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BlockPic
-        fields = (
-            'id',
-            'block',
-            'pic',
-        )
-
-class BlockVidSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = BlockVid
-        fields = (
-            'id',
-            'block',
-            'vid',
-        )
+    
+    def get_pics(self, obj):
+        return obj.pics
+    
+    def get_vids(self, obj):
+        return obj.vids
+    
+    # def get_main_pic(self, obj):
+    #     request = self.context.get('request') # self.request
+    #     default_pic = BlockPic.objects.filter(block__pk=obj.pk).order_by('-default', 'priority', '-pk').first()
+    #     print(f'{BlockPic.objects.filter(block__pk=obj.pk).order_by('-default', 'priority', '-pk').all()}')
+    #     return media_url(request, default_pic.pic) if \
+    #             default_pic else \
+    #             null

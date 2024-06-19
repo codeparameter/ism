@@ -52,21 +52,6 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=50)),
             ],
         ),
-        migrations.CreateModel(
-            name='BlockPic',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('pic', models.ImageField(blank=True, default='img/no-pic.png', upload_to=blocks.models.blockPicPath, verbose_name='Image')),
-                ('block', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='blocks.block')),
-            ],
-        ),
-        migrations.CreateModel(
-            name='BlockVid',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('block', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='blocks.city')),
-            ],
-        ),
         migrations.AddField(
             model_name='block',
             name='city',
