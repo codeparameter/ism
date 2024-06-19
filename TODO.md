@@ -1,5 +1,6 @@
 README
-app name > module > method or var or ... > more depth ... : description 
+app name > module > method or var or ... > more depth ... : description
+blocks > create ViewSet method: accept pics and save it to Pic
 blocks > pop_pics_ids ViewSet method
 blocks > add_vids_ids ViewSet method
 blocks > pop_vids_ids ViewSet method
