@@ -1,6 +1,5 @@
-from rest_framework import mixins, viewsets, status
+from rest_framework import mixins, viewsets
 from rest_framework.decorators import action
-from rest_framework.response import Response
 from files.viewsets import add_pics_to_model_record
 from .serializers import *
 
