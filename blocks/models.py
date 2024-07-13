@@ -1,11 +1,5 @@
 from django.db import models
-from datetime import datetime
-
-class City(models.Model):
-    name = models.CharField(max_length=50)
-
-class Material(models.Model):
-    name = models.CharField(max_length=50)
+from mines.models import Mine
 
 class Schema(models.Model):
     name = models.CharField(max_length=50)
@@ -33,14 +27,13 @@ class Quality(models.Model):
 class Block(models.Model):
     pics = models.JSONField(default=list, blank=True)
     vids = models.JSONField(default=list, blank=True)
-    city = models.ForeignKey(City, on_delete=models.CASCADE)
-    material = models.ForeignKey(Material, on_delete=models.CASCADE)
+    mine = models.ForeignKey(Mine, on_delete=models.CASCADE)
     schema = models.ForeignKey(Schema, on_delete=models.CASCADE)
     quality = models.ForeignKey(Quality, on_delete=models.CASCADE)
     length = models.IntegerField()
     height = models.IntegerField()
     width = models.IntegerField()
-    not_available = models.BooleanField(default=False, blank=True)
+    not_available = models.BooleanField(default=False, blank=True) # status
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
 
     @property

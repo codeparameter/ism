@@ -62,8 +62,13 @@ INSTALLED_APPS = [
     *DEV_APPS,
 
     # my apps
-
+    'phones',
+    'cities',
+    'factories',
+    'mines',
     'blocks',
+    'invoices',
+    'users',
     'api',
     'files',
 

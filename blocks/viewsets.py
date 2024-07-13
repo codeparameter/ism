@@ -13,16 +13,6 @@ class BlockViewSet(viewsets.ModelViewSet):
         return add_pics_to_model_record(request, self.get_object())
 
 
-class CityViewSet(viewsets.ModelViewSet):
-    queryset = City.objects.all()
-    serializer_class = CitySerializer
-
-
-class MaterialViewSet(viewsets.ModelViewSet):
-    queryset = Material.objects.all()
-    serializer_class = MaterialSerializer
-
-
 class SchemaViewSet(viewsets.ModelViewSet):
     queryset = Schema.objects.all()
     serializer_class = SchemaSerializer

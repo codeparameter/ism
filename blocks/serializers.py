@@ -3,23 +3,7 @@ from rest_framework.reverse import reverse
 
 from home.settings import media_url
 
-from .models import *
-
-class CitySerializer(serializers.ModelSerializer):
-    class Meta:
-        model = City
-        fields = (
-            'id',
-            'name',
-        )
-
-class MaterialSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Material
-        fields = (
-            'id',
-            'name',
-        )
+from .models import Schema, Quality, Block
 
 class SchemaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -45,10 +29,11 @@ class BlockSerializer(serializers.ModelSerializer):
         model = Block
         fields = (
             'id',
-            'city',
-            'city_name',
-            'material',
-            'material_name',
+            'mine',
+            # 'city',
+            # 'city_name',
+            # 'material',
+            # 'material_name',
             'schema',
             'schema_name',
             'quality',
@@ -60,7 +45,6 @@ class BlockSerializer(serializers.ModelSerializer):
             'url',
             'pics',
             'vids',
-            # 'main_pic',
             'created_at',
         )
     
