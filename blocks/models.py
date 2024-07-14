@@ -1,5 +1,9 @@
 from django.db import models
-from mines.models import Mine
+from cities.models import City
+from mines.models import Material, Mine
+
+class Color(models.Model):
+    name = models.CharField(max_length=50)
 
 class Schema(models.Model):
     name = models.CharField(max_length=50)
@@ -24,31 +28,55 @@ class Quality(models.Model):
     
     # objects = QualityManager()
 
+statuses = (
+    ('Available', 'available'),
+    ('Ordered', 'ordered'),
+    ('Sold', 'sold'), # can't order
+)
+
+class Availability(models.Model):
+    status = models.CharField(max_length=50, choices=statuses)
+
 class Block(models.Model):
     pics = models.JSONField(default=list, blank=True)
     vids = models.JSONField(default=list, blank=True)
     mine = models.ForeignKey(Mine, on_delete=models.CASCADE)
+    mtr = models.ForeignKey(Material, blank=True, on_delete=models.CASCADE)
+    ct = models.ForeignKey(City, blank=True, on_delete=models.CASCADE)
+    color = models.ForeignKey(Color, on_delete=models.CASCADE)
     schema = models.ForeignKey(Schema, on_delete=models.CASCADE)
     quality = models.ForeignKey(Quality, on_delete=models.CASCADE)
     length = models.IntegerField()
     height = models.IntegerField()
     width = models.IntegerField()
-    not_available = models.BooleanField(default=False, blank=True) # status
+    availability = models.ForeignKey(Availability, default=1, blank=True, on_delete=models.CASCADE) # status
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
 
     @property
-    def city_name(self):
-        return self.city.name
+    def city(self):
+        return self.ct.name
 
     @property
-    def material_name(self):
-        return self.material.name
+    def material(self):
+        return self.mtr.name
+
+    @property
+    def mine_name(self):
+        return self.mine.name
+
+    @property
+    def color_name(self):
+        return self.color.name
 
     @property
     def schema_name(self):
         return self.schema.name
 
     @property
-    def quality_name(self):
+    def quality_grade(self):
         return self.quality.grade
+
+    @property
+    def availability_status(self):
+        return self.availability.status
 

@@ -3,7 +3,15 @@ from rest_framework.reverse import reverse
 
 from home.settings import media_url
 
-from .models import Schema, Quality, Block
+from .models import Availability, Color, Schema, Quality, Block
+
+class ColorSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Color
+        fields = (
+            'id',
+            'name',
+        )
 
 class SchemaSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,6 +29,14 @@ class QualitySerializer(serializers.ModelSerializer):
             'grade',
         )
 
+class AvailabilitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Availability
+        fields = (
+            'id',
+            'status',
+        )
+
 class BlockSerializer(serializers.ModelSerializer):
     url = serializers.SerializerMethodField(read_only=True)
     pics = serializers.SerializerMethodField(read_only=True)
@@ -30,18 +46,22 @@ class BlockSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'mine',
-            # 'city',
-            # 'city_name',
-            # 'material',
-            # 'material_name',
+            'mine_name',
+            'city',
+            'ct',
+            'material',
+            'mtr',
+            'color',
+            'color_name',
             'schema',
             'schema_name',
             'quality',
-            'quality_name',
+            'quality_grade',
             'length',
             'height',
             'width',
-            'not_available',
+            'availability',
+            'availability_status',
             'url',
             'pics',
             'vids',
