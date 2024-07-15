@@ -46,6 +46,7 @@ class Block(models.Model):
     color = models.ForeignKey(Color, on_delete=models.CASCADE)
     schema = models.ForeignKey(Schema, on_delete=models.CASCADE)
     quality = models.ForeignKey(Quality, on_delete=models.CASCADE)
+    code = models.IntegerField()
     length = models.IntegerField()
     height = models.IntegerField()
     width = models.IntegerField()
