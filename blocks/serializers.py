@@ -57,6 +57,7 @@ class BlockSerializer(serializers.ModelSerializer):
             'schema_name',
             'quality',
             'quality_grade',
+            'code',
             'length',
             'height',
             'width',

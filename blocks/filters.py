@@ -60,6 +60,7 @@ class BlockFilter(django_filters.FilterSet):
         queryset=Availability.objects.all(),
         to_field_name='id',
         )
+    code = django_filters.RangeFilter()
     length = django_filters.RangeFilter()
     height = django_filters.RangeFilter()
     width = django_filters.RangeFilter()
@@ -74,6 +75,7 @@ class BlockFilter(django_filters.FilterSet):
             'color',
             'schema',
             'quality',
+            'code',
             'length',
             'height',
             'width',
