@@ -10,7 +10,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('cities', '0001_initial'),
-        ('phones', '0001_initial'),
     ]
 
     operations = [
@@ -29,7 +28,6 @@ class Migration(migrations.Migration):
                 ('adr', models.TextField(verbose_name='Address')),
                 ('city', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='cities.city')),
                 ('material', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='mines.material')),
-                ('phone', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to='phones.phone')),
             ],
         ),
     ]
