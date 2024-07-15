@@ -10,6 +10,7 @@ djangorestframework = "*"
 django-cors-headers = "*"
 pillow = "*"
 django-filter = "*"
+mysqlclient = "*"
 
 [dev-packages]
 django-seed = "*"

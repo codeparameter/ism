@@ -40,9 +40,9 @@ if not DEBUG:
 
 # Application definition
 
-DEV_APPS = [
-    'django_seed',
-] if DEBUG else []
+# DEV_APPS = [
+#     'django_seed',
+# ] if DEBUG else []
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -60,7 +60,7 @@ INSTALLED_APPS = [
 
     # DEV APPS
 
-    *DEV_APPS,
+    # *DEV_APPS,
 
     # my apps
     'phones',
@@ -184,6 +184,8 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10,
 }
+
+AUTH_USER_MODEL = 'users.User'
 
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
