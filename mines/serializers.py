@@ -19,5 +19,6 @@ class MineSerializer(serializers.ModelSerializer):
             'city',
             'material',
             'adr',
-            'phone',
+            'ph_no',
+            'activity',
         )
