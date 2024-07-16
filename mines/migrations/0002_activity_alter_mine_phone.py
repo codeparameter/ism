@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
             name='Activity',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('status', models.CharField(choices=[('Verifying', 'verifying'), ('Active', 'active'), ('Paused', 'paused'), ('Closed', 'closed'), ('Baned', 'baned')], max_length=50)),
+                ('status', models.CharField(choices=[('Verifying', 'verifying'), ('Rejected', 'rejected'), ('Active', 'active'), ('Paused', 'paused'), ('Closed', 'closed'), ('Baned', 'baned')], max_length=50)),
             ],
         ),
     ]
