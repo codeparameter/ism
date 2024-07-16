@@ -7,6 +7,7 @@ class Material(models.Model):
 
 statuses = (
     ('Verifying', 'verifying'),
+    ('Rejected', 'rejected'),
     ('Active', 'active'),
     ('Paused', 'paused'),
     ('Closed', 'closed'),
