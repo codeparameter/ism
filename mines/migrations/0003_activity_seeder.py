@@ -4,7 +4,7 @@ from django.db import migrations
 from mines.models import Activity, statuses
 
 
-def set_Activity_statuses(apps, schema_editor):
+def seed_activity(apps, schema_editor):
     # Activity = apps.get_model("apps", "Activity")
     for status in statuses:
         # instance = Activity.objects.create(status=status[0])
@@ -18,6 +18,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(set_Activity_statuses),
+        migrations.RunPython(seed_activity),
     ]
 

@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('mines', '0003_auto'),
+        ('mines', '0003_activity_seeder'),
     ]
 
     operations = [

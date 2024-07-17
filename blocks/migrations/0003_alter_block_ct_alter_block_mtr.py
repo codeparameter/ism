@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blocks', '0002_auto_20240520_2131'),
+        ('blocks', '0002_quality_seeder'),
         ('cities', '0001_initial'),
         ('mines', '0001_initial'),
     ]

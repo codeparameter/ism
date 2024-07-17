@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('blocks', '0005_auto'),
+        ('blocks', '0005_availability_seeder'),
     ]
 
     operations = [

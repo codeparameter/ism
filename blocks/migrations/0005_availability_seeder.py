@@ -4,7 +4,7 @@ from django.db import migrations
 from blocks.models import Availability, statuses
 
 
-def set_availability_statuses(apps, schema_editor):
+def seed_availability(apps, schema_editor):
     # Availability = apps.get_model("apps", "Availability")
     for status in statuses:
         # instance = Availability.objects.create(status=status[0])
@@ -18,6 +18,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(set_availability_statuses),
+        migrations.RunPython(seed_availability),
     ]
 

@@ -4,7 +4,7 @@ from django.db import migrations
 from blocks.models import Quality, GRADES
 
 
-def set_quality_grades(apps, schema_editor):
+def seed_quality(apps, schema_editor):
     # Quality = apps.get_model("apps", "Quality")
     for grade in GRADES:
         # instance = Quality.objects.create(grade=grade[0])
@@ -18,6 +18,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(set_quality_grades),
+        migrations.RunPython(seed_quality),
     ]
 
