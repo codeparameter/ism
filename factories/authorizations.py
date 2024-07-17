@@ -1,23 +1,23 @@
 from django.contrib.auth.models import Group, Permission, ContentType
 
 
-FACTORY_STAFF_PERMISSIONS = [
-]
+# FACTORY_STAFF_PERMISSIONS = [
+# ]
 
-FACTORY_ACCOUNTER_PERMISSIONS = [
-    *FACTORY_STAFF_PERMISSIONS,
-]
+# FACTORY_ACCOUNTER_PERMISSIONS = [
+#     *FACTORY_STAFF_PERMISSIONS,
+# ]
 
-FACTORY_MANAGER_PERMISSIONS = [
-    *FACTORY_STAFF_PERMISSIONS,
-]
+# FACTORY_MANAGER_PERMISSIONS = [
+#     *FACTORY_STAFF_PERMISSIONS,
+# ]
 
-FACTORY_OWNER_PERMISSIONS = [
-    *FACTORY_STAFF_PERMISSIONS,
-    # we can add all of the factory permissions for factory owners like this:
-    # *FACTORY_MANAGER_PERMISSIONS,
-    # *...
-]
+# FACTORY_OWNER_PERMISSIONS = [
+#     *FACTORY_STAFF_PERMISSIONS,
+#     # we can add all of the factory permissions for factory owners like this:
+#     # *FACTORY_MANAGER_PERMISSIONS,
+#     # *...
+# ]
 
 def authorize():
 
