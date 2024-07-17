@@ -1,4 +1,5 @@
 from django.db import models
+from users.models import User
 from cities.models import City
 from phones.models import Phone
 
@@ -7,9 +8,8 @@ class Material(models.Model):
 
 statuses = (
     ('Verifying', 'verifying'),
-    ('Rejected', 'rejected'),
     ('Active', 'active'),
-    ('Paused', 'paused'),
+    ('Suspended', 'suspended'),
     ('Closed', 'closed'),
     ('Baned', 'baned'),
 )
@@ -25,5 +25,6 @@ class Mine(models.Model):
     ph_no = models.ForeignKey(Phone, on_delete=models.CASCADE)
     activity = models.ForeignKey(Activity, default=1, blank=True, on_delete=models.CASCADE)
 
-# role model
-# users model
+class MineStaff(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    mine = models.ForeignKey(Mine, on_delete=models.CASCADE)

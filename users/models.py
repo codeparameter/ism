@@ -3,8 +3,19 @@ from django.db import models
 from django.contrib.auth.hashers import make_password
 from phones.models import Phone
 
+statuses = (
+    ('Verifying', 'verifying'),
+    ('Active', 'active'),
+    ('Suspended', 'suspended'),
+    ('Baned', 'baned'),
+)
+
+class Activity(models.Model):
+    status = models.CharField(max_length=50, choices=statuses)
+
 class User(AbstractUser):
     phone = models.ForeignKey(Phone, null=True, on_delete=models.CASCADE)
+    activity = models.ForeignKey(Activity, default=1, blank=True, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
         # Check if the password is already hashed
