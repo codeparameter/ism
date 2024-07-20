@@ -1,14 +1,6 @@
 from rest_framework import serializers
 
-from .models import Material, Activity, Mine, MineStaff
-
-class MaterialSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Material
-        fields = (
-            'id',
-            'name',
-        )
+from .models import Activity, Factory, FactoryStaff
 
 class ActivitySerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,22 +10,22 @@ class ActivitySerializer(serializers.ModelSerializer):
             'status',
         )
 
-class MineSerializer(serializers.ModelSerializer):
+class FactorySerializer(serializers.ModelSerializer):
     class Meta:
-        model = Mine
+        model = Factory
         fields = (
             'id',
             'name',
             'city',
-            'material',
             'adr',
             'ph_no',
             'activity',
+            'contact_info',
         )
 
-class MineStaffSerializer(serializers.ModelSerializer):
+class FactoryStaffSerializer(serializers.ModelSerializer):
     class Meta:
-        model = MineStaff
+        model = FactoryStaff
         fields = (
             'id',
             'user',
