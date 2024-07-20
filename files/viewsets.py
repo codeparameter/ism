@@ -54,6 +54,14 @@ def add_pics_to_model_record(request, model_instance):
     return Response({'success': 'Update successful', 'data': model_instance.pics}, status=status.HTTP_200_OK)
 
 
+# try:
+#     content_type = ContentType.objects.get(id=content_type_id)
+#     model_class = content_type.model_class()
+#     print(f"Model class: {model_class}")
+# except ContentType.DoesNotExist:
+#     print(f"Content type with ID {content_type_id} does not exist.")
+
+
 class VidViewSet(viewsets.ModelViewSet):
     queryset = Vid.objects.all()
     serializer_class = VidSerializer
