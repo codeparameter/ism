@@ -51,7 +51,7 @@ def add_pics_to_model_record(request, model_instance):
         pic.save()
 
     model_instance.save()
-    return Response({'success': 'Update successful', 'data': model_instance.pics}, status=status.HTTP_200_OK)
+    return Response({'success': 'Pictures have been added successfully', 'data': model_instance.pics}, status=status.HTTP_200_OK)
 
 
 # try:
