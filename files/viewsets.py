@@ -2,6 +2,7 @@ import json
 
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+from django.contrib.contenttypes.models import ContentType
 from .serializers import *
 
 
@@ -45,7 +46,8 @@ def add_pics_to_model_record(request, model_instance):
             return Response({'error': f"Bad request. pic id {pic_id} doesn't exist"}, 
                                 status=status.HTTP_400_BAD_REQUEST)
         model_instance.pics.append({'id': pic_id, 'url': f'{pic.pic}/'})
-        pic.dependencies.append({'model': str(type(model_instance)), 'id': model_instance.id})
+        content_type = ContentType.objects.get_for_model(model_instance)
+        pic.dependencies.append({'content_type_id': content_type.id, 'instance_id': model_instance.id})
         pic.save()
 
     model_instance.save()

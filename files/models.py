@@ -8,7 +8,7 @@ def pic_path(instance, filename):
 
 
 class Pic(models.Model):
-    dependencies = models.JSONField(default=list, blank=True)
+    dependencies = models.JSONField(default=list, blank=True) # type content
     pic = models.ImageField(_('Image'), upload_to=pic_path)
 
     @staticmethod
@@ -20,7 +20,7 @@ def vid_path(instance, filename):
     return f'{Vid.media_path()}{str(datetime.now())}{filename}'
 
 class Vid(models.Model):
-    dependencies = models.JSONField(default=list, blank=True)
+    dependencies = models.JSONField(default=list, blank=True) # type content
     vid = models.FileField(upload_to=vid_path)
 
     @staticmethod
