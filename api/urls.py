@@ -4,6 +4,7 @@ from . import routes
 from .views import ValidateToken
 
 urlpatterns = [
+    path(r'captcha/', include('captcha.urls')),
     path('auth/', obtain_auth_token),
     path('validate-token/', ValidateToken.as_view()),
     path('', include(routes)),
