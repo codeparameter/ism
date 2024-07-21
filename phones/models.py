@@ -8,5 +8,4 @@ class Phone(models.Model):
     # pre + no uniqueness must validate together
     is_mobile = models.BooleanField(default=True, blank=True)
     dependency = models.JSONField(default=dict, blank=True) # type content
-    v_code = models.CharField('v_code', max_length=4, validators=[MinLengthValidator(4)]) # verification code
     expire = models.DateTimeField(null=True, blank=True)

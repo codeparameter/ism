@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth.hashers import make_password
+from django.core.validators import MinLengthValidator
 from phones.models import Phone
 
 statuses = (
@@ -16,6 +17,8 @@ class Activity(models.Model):
 class User(AbstractUser):
     phone = models.ForeignKey(Phone, null=True, on_delete=models.CASCADE)
     activity = models.ForeignKey(Activity, default=1, blank=True, on_delete=models.CASCADE)
+    v_code = models.CharField('v_code', default= '0000', max_length=4, validators=[MinLengthValidator(4)]) # verification code
+    expire = models.DateTimeField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         # Check if the password is already hashed
