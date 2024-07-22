@@ -6,5 +6,6 @@ include('cities.routes')
 include('mines.routes')
 include('blocks.routes')
 include('users.routes')
+include('maptcha.routes')
 
 urlpatterns = register_routes()

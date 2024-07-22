@@ -24,9 +24,5 @@ class User(AbstractUser):
             self.password = make_password(self.password)
         super().save(*args, **kwargs)
 
-    @property
-    def v_code(self):
-        return self.phone.v_code
-
     class Meta(AbstractUser.Meta):
         swappable = "AUTH_USER_MODEL"

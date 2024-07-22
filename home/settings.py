@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     'users',
     'api',
     'files',
+    'maptcha',
 
     # others
 
