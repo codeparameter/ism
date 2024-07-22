@@ -1,3 +1,9 @@
+from datetime import timedelta
+from django.utils import timezone
+import random
+from .models import DEFAULT_V_CODE
+from home.settings import SIMPLECAPTCHA_DURATION
+
 from rest_framework import mixins, viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -58,6 +64,36 @@ class PhoneViewSet(
         # model_instance.save()
         # return Response({'success': 'Phone has been verified successfully', 'data': model_instance.pics}, status=status.HTTP_200_OK)
 
-def create_phone(pre, no, expire):
-    phone = Phone.objects.create(pre=pre, No=no, expire=expire)
-    return phone
+def send_v_code(pre, no):
+    v_code = (str(random.random()) + DEFAULT_V_CODE)[2:6]
+    # send sms to +pre no here
+    return v_code
+
+def get_expire():
+    time_change = timedelta(seconds=SIMPLECAPTCHA_DURATION)
+    return timezone.localtime() + time_change
+
+def create_phone(pre, no, is_mobile=True):
+    v_code=send_v_code(pre, no)
+    expire=get_expire()
+    phones = Phone.objects.filter(expire__lt=timezone.localtime())
+    
+    if phones:
+        phone = phones[0]
+        phone.is_mobile = is_mobile
+        phone.pre = pre
+        phone.No = no
+        phone.dependency = {}
+        phone.expire = expire
+        phone.v_code = v_code
+        phone.save()
+
+        return phone
+    
+    return Phone.objects.create(
+                        pre=pre, 
+                        No=no, 
+                        v_code=v_code, 
+                        expire=expire,
+                        is_mobile=is_mobile
+                        )

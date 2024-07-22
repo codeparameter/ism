@@ -1,103 +1,86 @@
-from datetime import timedelta
 from django.utils import timezone
-import random
+from django.contrib.contenttypes.models import ContentType
 
 from rest_framework import mixins, viewsets, status
 from rest_framework.response import Response
-from rest_framework.decorators import action
 from .serializers import *
-from .models import DEFAULT_V_CODE
-from phones.viewsets import create_phone
-from home.settings import SIMPLECAPTCHA_DURATION
+from phones.viewsets import Phone
+from home.mixins import PostViewSet
 
 
 class UserRegistrationViewSet(
     mixins.CreateModelMixin,
     viewsets.GenericViewSet
     ):
-    queryset = User.objects.none()
     serializer_class = UserRegistrationSerializer
     permission_classes = ()
 
     def create(self, request, *args, **kwargs):
-        pre = request.data.get('pre')
-        no = request.data.get('no')
-        
+        try:
+            user = User.objects.get(username=request.data.get('username'))
+            user.delete()
+        except User.DoesNotExist:
+            pass
+
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         
-        v_code = send_v_code(pre, no)
-        expire = get_expire()
-
-        phone = create_phone(pre, no, expire)
-        
-        User.objects.create(
+        create_user(
             username=request.data.get('username'), 
             password=request.data.get('password'),
-            phone=phone,
-            v_code=v_code,
-            expire=expire
+            pre=request.data.get('pre'),
+            no=request.data.get('no'),
+            email=request.data.get('email')
             )
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+
+class UserPhoneVerificationViewSet(PostViewSet):
+    serializer_class = UserPhoneVerificationSerializer
+    permission_classes = ()
+
+    def create(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        user = User.objects.get(username=request.data.get('username'))
+        user.expire = None
+        user.phone.expire = None
+
+        content_type = ContentType.objects.get_for_model(User)
+        user.phone.dependency = {'content_type_id': content_type.id, 'instance_id': user.id}
         
+        user.phone.save()
+        user.save()
 
-    # @action(methods=['post'])
-    # def verify(self, request, *args, **kwargs):
-        # v_code = request.data.get('v_code')
+        return Response({'msg': 'phone verified'}, status=status.HTTP_200_OK)
 
-        # if not v_code: # validation
-        #     return Response({'error': 'Bad request. v_code is required'}, 
-        #                         status=status.HTTP_400_BAD_REQUEST)
+def create_user(username, password, pre, no, email):
+    phone = Phone.objects.filter(No=no, pre=pre)[0]
+    expire = phone.expire
+    expired_users = User.objects.filter(expire__lt=timezone.localtime())
+    
+    if expired_users:
+        first_expired = expired_users[0]
+        first_expired.username = username
+        first_expired.password = password
+        first_expired.phone = phone
+        first_expired.email = email
+        first_expired.expire = expire
+        first_expired.activity = Activity.objects.get(status='Verifying')
+        first_expired.last_login = None
+        first_expired.is_staff = 0
+        first_expired.is_superuser = 0
+        first_expired.is_active = 1
+        first_expired.save()
 
-        # pre = request.data.get('pre')
+        return first_expired
 
-        # if not pre: # validation
-        #     return Response({'error': 'Bad request. phone prefix(pre) is required'}, 
-        #                         status=status.HTTP_400_BAD_REQUEST)
-
-        # no = request.data.get('no')
-
-        # if not no: # validation
-        #     return Response({'error': 'Bad request. phone number(no) is required'}, 
-        #                         status=status.HTTP_400_BAD_REQUEST)
-                                
-        # try:
-        #     model_instance = Phone.objects.get(no=no)
-        # except Phone.DoesNotExist:
-        #     return Response({'error': 'Bad request. phone no.(no) must be registered first'}, 
-        #                         status=status.HTTP_400_BAD_REQUEST)
-
-        # if model_instance.expire is None:
-        #     return Response({'error': 'Bad request. phone has been already verified'},
-        #                         status=status.HTTP_400_BAD_REQUEST)
-
-        # if model_instance.v_code is not v_code:
-        #     return Response({'error': 'Bad request. v_code was wrong'},
-        #                         status=status.HTTP_400_BAD_REQUEST)
-
-        # if model_instance.expire < datetime.now():
-        #     return Response({'error': 'Bad request. code has been expired'},
-        #                         status=status.HTTP_400_BAD_REQUEST)
-
-        # model_instance.expire = None
-        # model_instance.save()
-        # return Response({'success': 'Phone has been verified successfully', 'data': model_instance.pics}, status=status.HTTP_200_OK)
-
-        # if model_instance.v_code is not v_code:
-        #     return Response({'error': 'Bad request. v_code was wrong'},
-        #                         status=status.HTTP_400_BAD_REQUEST)
-
-        # if model_instance.expire < datetime.now():
-        #     return Response({'error': 'Bad request. code has been expired'},
-        #                         status=status.HTTP_400_BAD_REQUEST)
-
-def send_v_code(pre, no):
-    v_code = int((str(random.random()) + DEFAULT_V_CODE)[2:6])
-    # send sms to +pre no here
-    return v_code
-
-def get_expire():
-    time_change = timedelta(seconds=SIMPLECAPTCHA_DURATION)
-    return timezone.localtime() + time_change
+    return User.objects.create(
+            username=username,
+            password=password,
+            phone=phone,
+            email=email,
+            expire=expire
+            )

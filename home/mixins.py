@@ -5,7 +5,5 @@ class PostViewSet(
     viewsets.GenericViewSet
     ):
 
-    def post(self, request, *args, **kwargs):
+    def create(self, request, *args, **kwargs):
         pass
-
-    create = post
