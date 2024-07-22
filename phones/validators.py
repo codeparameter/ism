@@ -5,7 +5,8 @@ from .models import Phone
 def validate_unique_phone(pre, no):
     phones = Phone.objects.filter(No=no, pre=pre)
     if phones:
-        raise serializers.ValidationError("phone already exists.")
+        if phones[0].dependency:
+            raise serializers.ValidationError("phone already exists.")
 
 def validate_starts_with9(pre, no):
     if pre == '98' and no[0] != '9':
