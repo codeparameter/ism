@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
 from .models import Activity, User
-from .validators import validate_phone_v_code
+from .validators import validate_captcha, validate_phone_v_code
 from home.validators import validate_int
 from phones.validators import validate_mobile_phone
 from phones.models import V_CODE_LENGTH
@@ -26,6 +26,7 @@ class UserSerializer(serializers.ModelSerializer):
 class UserRegistrationSerializer(serializers.ModelSerializer):
     pre = serializers.CharField(validators=[validate_int], max_length=4)
     no = serializers.CharField(validators=[validate_int], max_length=10, min_length=10)
+    captcha = serializers.CharField(max_length=4, min_length=4)
 
     class Meta:
         model = User
@@ -34,11 +35,16 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
             'password',
             'pre',
             'no',
+            'first_name',
+            'last_name',
+            'no',
             'email',
+            'captcha',
         )
         
     def validate(self, attrs):
         validate_mobile_phone(pre=attrs['pre'], no=attrs['no'])
+        validate_captcha(attrs['captcha'])
         return super().validate(attrs)
 
 class UserPhoneVerificationSerializer(serializers.ModelSerializer):
