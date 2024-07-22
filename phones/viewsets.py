@@ -1,7 +1,3 @@
-from datetime import timedelta
-from django.utils import timezone
-import random
-
 from rest_framework import mixins, viewsets, status
 from rest_framework.response import Response
 from rest_framework.decorators import action
@@ -61,20 +57,6 @@ class PhoneViewSet(
         # model_instance.expire = None
         # model_instance.save()
         # return Response({'success': 'Phone has been verified successfully', 'data': model_instance.pics}, status=status.HTTP_200_OK)
-
-
-def is_unique_phone(pre, no):
-    phones = Phone.objects.filter(No=no, pre=pre)
-    return not phones
-
-def send_v_code(pre, no):
-    v_code = int(str(random.random())[2:6])
-    # send sms to +pre no here
-    return v_code
-
-def get_expire():
-    time_change = timedelta(minutes=2)
-    return timezone.now() + time_change
 
 def create_phone(pre, no, expire):
     phone = Phone.objects.create(pre=pre, No=no, expire=expire)

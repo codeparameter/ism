@@ -188,6 +188,8 @@ REST_FRAMEWORK = {
 
 AUTH_USER_MODEL = 'users.User'
 
+SIMPLECAPTCHA_DURATION = 120 # seconds
+
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
