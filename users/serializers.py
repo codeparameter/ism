@@ -1,7 +1,8 @@
 from rest_framework import serializers
 
 from .models import Activity, User
-from .validators import validate_captcha, validate_phone_v_code
+from .validators import validate_phone_v_code
+from maptcha.validators import validate_captcha
 from home.validators import validate_int
 from phones.validators import validate_mobile_phone
 from phones.models import V_CODE_LENGTH
