@@ -11,6 +11,7 @@ class ActivitySerializer(serializers.ModelSerializer):
         )
 
 class FactorySerializer(serializers.ModelSerializer):
+    activity = serializers.SerializerMethodField(read_only=True)
     class Meta:
         model = Factory
         fields = (
@@ -22,6 +23,9 @@ class FactorySerializer(serializers.ModelSerializer):
             'activity',
             'contact_info',
         )
+    
+    def get_activity(self, obj):
+        return obj.activity.status
 
 class FactoryStaffSerializer(serializers.ModelSerializer):
     class Meta:
