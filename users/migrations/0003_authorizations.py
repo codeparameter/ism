@@ -1,5 +1,5 @@
 from django.db import migrations
-from users.authorizations import authorize as au
+from home.authorizations import authorize as au
 
 def authorize(apps, schema_editor):
     au()

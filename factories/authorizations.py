@@ -1,4 +1,5 @@
 from django.contrib.auth.models import Group, Permission, ContentType
+from .models import Factory
 
 
 FACTORY_STAFF_PERMISSIONS = [
@@ -17,6 +18,11 @@ FACTORY_OWNER_PERMISSIONS = [
     # we can add all of the factory permissions for factory owners like this:
     # *FACTORY_MANAGER_PERMISSIONS,
     # *...
+    Permission.objects.get_or_create(
+        defaults={"name": "Can save factories",},
+        content_type=ContentType.objects.get_for_model(Factory),
+        codename="save_factory",
+        )[0],
 ]
 
 def authorize():
@@ -29,4 +35,4 @@ def authorize():
     # factory_staffs.permissions.set(FACTORY_STAFF_PERMISSIONS)
     # factory_accounters.permissions.set(FACTORY_ACCOUNTER_PERMISSIONS)
     # factory_managers.permissions.set(FACTORY_MANAGER_PERMISSIONS)
-    # factory_owners.permissions.set(FACTORY_OWNER_PERMISSIONS)
+    factory_owners.permissions.set(FACTORY_OWNER_PERMISSIONS)
