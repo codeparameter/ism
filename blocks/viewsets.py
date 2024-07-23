@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from django_filters.rest_framework import DjangoFilterBackend
 from files.viewsets import add_pics_to_model_record
+from .permissions import BlockPermission
 from .serializers import *
 from mines.models import Mine
 from .filters import BlockFilter
@@ -11,6 +12,7 @@ from .filters import BlockFilter
 class BlockViewSet(viewsets.ModelViewSet):
     queryset = Block.objects.all()
     serializer_class = BlockSerializer
+    permission_classes = [BlockPermission]
     filter_backends = [DjangoFilterBackend]
     filterset_class = BlockFilter
 
