@@ -22,10 +22,3 @@ def authorize():
     admins, _ = Group.objects.get_or_create(name="Administrators")
 
     admins.permissions.set(ADMIN_PERMISSIONS)
-
-    for app in (
-        'mines',
-        'factories',
-    ):            
-        exec(f"from {app}.authorizations import authorize as au")
-        exec("au()")
