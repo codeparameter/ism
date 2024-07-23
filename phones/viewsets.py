@@ -79,16 +79,17 @@ def create_phone(pre, no, is_mobile=True):
     phones = Phone.objects.filter(expire__lt=timezone.localtime())
     
     if phones:
-        phone = phones[0]
-        phone.is_mobile = is_mobile
-        phone.pre = pre
-        phone.No = no
-        phone.dependency = {}
-        phone.expire = expire
-        phone.v_code = v_code
-        phone.save()
+        pid = phones[0].id
+        phones[0].delete()
 
-        return phone
+        return Phone.objects.create(
+                                id=pid,
+                                pre=pre, 
+                                No=no, 
+                                v_code=v_code, 
+                                expire=expire,
+                                is_mobile=is_mobile
+                                )
     
     return Phone.objects.create(
                         pre=pre, 

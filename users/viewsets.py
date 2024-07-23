@@ -62,20 +62,17 @@ def create_user(username, password, pre, no, email):
     expired_users = User.objects.filter(expire__lt=timezone.localtime())
     
     if expired_users:
-        first_expired = expired_users[0]
-        first_expired.username = username
-        first_expired.password = password
-        first_expired.phone = phone
-        first_expired.email = email
-        first_expired.expire = expire
-        first_expired.activity = Activity.objects.get(status='Verifying')
-        first_expired.last_login = None
-        first_expired.is_staff = 0
-        first_expired.is_superuser = 0
-        first_expired.is_active = 1
-        first_expired.save()
+        uid = expired_users[0].id
+        expired_users[0].delete()
 
-        return first_expired
+        return User.objects.create(
+                id=uid,
+                username=username,
+                password=password,
+                phone=phone,
+                email=email,
+                expire=expire
+                )
 
     return User.objects.create(
             username=username,
