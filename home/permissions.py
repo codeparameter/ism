@@ -2,7 +2,7 @@ from rest_framework.permissions import BasePermission
 
 
 def has_group_perm(user, perm_codename):
-    if user.activity.status is not 'Active':
+    if user.activity.status != 'Active':
         return False
     return any(user.groups.filter(permissions__codename=perm_codename))
 
