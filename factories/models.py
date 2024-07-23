@@ -38,4 +38,4 @@ class StaffActivity(models.Model):
 class FactoryStaff(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     mine = models.ForeignKey(Factory, on_delete=models.CASCADE)
-    # activity = models.ForeignKey(StaffActivity, default=1, blank=True, on_delete=models.CASCADE)
+    activity = models.ForeignKey(StaffActivity, default=1, blank=True, on_delete=models.CASCADE)
