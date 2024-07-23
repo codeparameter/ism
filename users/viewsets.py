@@ -15,12 +15,15 @@ class UserRegistrationViewSet(
     serializer_class = UserRegistrationSerializer
     permission_classes = ()
 
-    def create(self, request, *args, **kwargs):
-        try:
-            user = User.objects.get(username=request.data.get('username'))
-            user.delete()
-        except User.DoesNotExist:
-            pass
+    def create(self, request, *args, **kwargs):        
+        expired_user = User.objects.filter(username=request.data.get('username'), 
+                                            expire__lt=timezone.localtime())
+        if expired_user:
+            uid = expired_user.id
+            expired_user.delete()
+        else:
+            uid = None
+
 
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -30,7 +33,8 @@ class UserRegistrationViewSet(
             password=request.data.get('password'),
             pre=request.data.get('pre'),
             no=request.data.get('no'),
-            email=request.data.get('email')
+            email=request.data.get('email'),
+            uid=uid
             )
 
         return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -56,11 +60,22 @@ class UserPhoneVerificationViewSet(PostViewSet):
 
         return Response({'msg': 'phone verified'}, status=status.HTTP_200_OK)
 
-def create_user(username, password, pre, no, email):
+def create_user(username, password, pre, no, email, uid=None):
     phone = Phone.objects.filter(No=no, pre=pre)[0]
     expire = phone.expire
-    expired_users = User.objects.filter(expire__lt=timezone.localtime())
     
+    if uid:
+        return User.objects.create(
+                id=uid,
+                username=username,
+                password=password,
+                phone=phone,
+                email=email,
+                expire=expire
+                )
+
+    expired_users = User.objects.filter(expire__lt=timezone.localtime())
+
     if expired_users:
         uid = expired_users[0].id
         expired_users[0].delete()
@@ -72,7 +87,7 @@ def create_user(username, password, pre, no, email):
                 phone=phone,
                 email=email,
                 expire=expire
-                )
+                )    
 
     return User.objects.create(
             username=username,

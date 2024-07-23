@@ -7,8 +7,7 @@ from .models import User
 
 def validate_captcha(captcha_response):
     try:
-        captcha = CaptchaStore.objects.get(response=captcha_response)
-        captcha.delete()
+        CaptchaStore.objects.get(response=captcha_response)
     except CaptchaStore.DoesNotExist:
         raise serializers.ValidationError("captcha don't exist.")
 
