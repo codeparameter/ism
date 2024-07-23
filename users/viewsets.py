@@ -19,7 +19,7 @@ class UserRegistrationViewSet(
         expired_user = User.objects.filter(username=request.data.get('username'), 
                                             expire__lt=timezone.localtime())
         if expired_user:
-            uid = expired_user.id
+            uid = expired_user[0].id
             expired_user.delete()
         else:
             uid = None
