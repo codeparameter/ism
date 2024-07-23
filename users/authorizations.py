@@ -1,6 +1,6 @@
 from django.contrib.auth.models import Group, Permission, ContentType
-from mines.models import Mine, MineStaff
-from factories.models import Factory, FactoryStaff
+from mines.models import Mine
+from factories.models import Factory
 
 
 ADMIN_PERMISSIONS = [
@@ -10,19 +10,9 @@ ADMIN_PERMISSIONS = [
         codename="verify_mines",
         )[0],
     Permission.objects.get_or_create(
-        defaults={"name": "Can verify mine staffs",},
-        content_type=ContentType.objects.get_for_model(MineStaff),
-        codename="verify_mine_staffs",
-        )[0],
-    Permission.objects.get_or_create(
         defaults={"name": "Can verify factories",},
         content_type=ContentType.objects.get_for_model(Factory),
         codename="verify_factories",
-        )[0],
-    Permission.objects.get_or_create(
-        defaults={"name": "Can verify factory staffs",},
-        content_type=ContentType.objects.get_for_model(FactoryStaff),
-        codename="verify_factory_staffs",
         )[0],
 ]
 
