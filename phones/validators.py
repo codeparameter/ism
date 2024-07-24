@@ -8,30 +8,31 @@ def validate_starts_with9(pre, no):
     if pre == '98' and no[0] != '9':
         raise serializers.ValidationError("phone number must start with 9.")
 
-def validate_last_v_code(phone):
-    if phone.expire:
-        now = timezone.localtime()
-        if now <= phone.expire:
-            time_left = phone.expire - now
-            raise serializers.ValidationError(f"v_code has been sent. please wait for {time_left.seconds} seconds.")
+def validate_unique_phone(phone):
+    if phone.dependency:
+        raise serializers.ValidationError("phone already exists.")
 
-def validate_unique_phone(pre, no):
+def validate_has_v_code(phone):
+    now = timezone.localtime()
+    if now <= phone.expire:
+        time_left = phone.expire - now
+        raise serializers.ValidationError(f"v_code has been sent. please wait for {time_left.seconds} seconds.")
+
+def validate_not_expired_phone(phone):
+    if phone.expire:
+        validate_has_v_code(phone)
+        phone.v_code = send_v_code(phone.pre, phone.No)
+        phone.expire = get_expire()
+        phone.save()
+
+def validate_mobile_phone(pre, no):
+    validate_starts_with9(pre, no)
     phones = Phone.objects.filter(No=no, pre=pre)
 
     if phones:
         phone = phones[0]
-        validate_last_v_code(phone)
-        
-        if phone.dependency:
-            raise serializers.ValidationError("phone already exists.")
-
-        phone.v_code = send_v_code(pre, no)
-        phone.expire = get_expire()
-        phone.save()
+        validate_unique_phone(phone)
+        validate_not_expired_phone(phone)
     else:
         create_phone(pre, no)
-
-def validate_mobile_phone(pre, no):
-    validate_starts_with9(pre, no)
-    validate_unique_phone(pre, no)
             
