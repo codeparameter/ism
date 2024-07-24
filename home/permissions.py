@@ -6,14 +6,8 @@ class GroupPermission(BasePermission):
     perm_codename = ''
     user_allowed_statuses = ['Active']
 
-    def need_activity(self):
-        return self.perm_codename
-
     def has_activity_perm(self, user):
         return user.activity.status in self.user_allowed_statuses
-
-    def need_perm(self):
-        return self.perm_codename
 
     def has_group_perm(self, user):
         return any(user.groups.filter(permissions__codename=self.perm_codename))
@@ -23,10 +17,10 @@ class GroupPermission(BasePermission):
 
         if isinstance(user, AnonymousUser):
             return False
-        if self.need_activity() and \
+        if self.user_allowed_statuses and \
             not self.has_activity_perm(user):
             return False
-        if self.need_perm():
+        if self.perm_codename:
             return self.has_group_perm(user)
         return True
 
