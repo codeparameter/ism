@@ -74,8 +74,8 @@ def get_expire():
     return timezone.localtime() + time_change
 
 def create_phone(pre, no, is_mobile=True):
-    v_code=send_v_code(pre, no)
-    expire=get_expire()
+    v_code = send_v_code(pre, no)
+    expire = get_expire()
     phones = Phone.objects.filter(expire__lt=timezone.localtime())
     
     if phones:
